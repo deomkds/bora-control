@@ -1,101 +1,99 @@
+# Bora Control
 
-# Bora Control - T-Dagger Bora / RK61 / Sino Wealth RGB Config Utility
+A Python 3 utility and Graphical User Interface (GUI) to configure RGB profiles, animations, and settings for the **T-Dagger Bora TGK315-BL** mechanical keyboard on Linux.
 
-Python3 based command line utility to manage and modify profiles on [Royal Kludge RK 61 Keyboard](https://www.meckeys.com/shop/keyboard/60-keyboard/royal-kludge-rk61-hot-swappable/).
+> **Disclaimer:** This project was reverse-engineered, built, and tested **exclusively** on the T-Dagger Bora TGK315-BL. However, since it communicates with the underlying Sino Wealth microcontroller (VID `0x258a`), it may work out-of-the-box or with minor PID adaptations for other keyboards sharing the same chipset (such as Royal Kludge RK61, Redragon, and other T-Dagger models).
 
-## Dependencies
+---
 
-    hidapi
-Installable using `pip` by running :
+## 📸 Interface
 
-    $ pip install hidapi
+![Bora Control GUI](window.png)
 
-## How to use
+---
 
-    # python bora_control.py <arguments>
+## 🛠️ Features
 
-Arguments :
+- **Full GUI Support:** A PyQt6 based graphical interface for easy, point-and-click customization.
+- **CLI Support:** Fully featured Command Line Interface for scripting and headless setups.
+- **13 Built-in Animations:** Seamlessly switch between all hardware-supported lighting modes.
+- **Speed & Brightness Control:** Complete reverse-engineered protocol allows independent speed and brightness settings for animations that support them.
+- **Global Colors & Hardware Rainbow:** Switch between solid custom RGB colors or the hardware's built-in Rainbow mode.
 
-    --speed, --sp [1-5]
-    # speed of led animation.
-    
-    --brightness, -br [0-5]
-    # brightness of led animation
-	
-	--sleep, -sl [1-5]
-	# sleep duration for the keyboard led
-	 - 1: 05 Minutes
-	 - 2: 10 Minutes
-	 - 3: 20 Minutes
-	 - 4: 30 Minutes
-	 - 5: Never Sleep
-	
-	--rainbow, -rb
-	# Set LED color mode to Rainbow
-	
-	--red, -r 0-255
-	# Red value of Color
-	
-	--green, -g 0-255
-	# Green value of Color
-	
-	--blue, -b 0-255
-	# Blue value of Color
-	
-	--animation, -an "animation_name"
-	# List of availaible animations:
-	 - neon_stream
-	 - ripples_shining
-	 - sine_wave
-	 - rainbow_routlette
-	 - stars_twinkle
-	 - layer_upon_layer
-	 - rich_and_honored
-	 - marquee_effect
-	 - rotating_storm
-	 - serpentine_horse
-	 - retro_snake
-	 - diagonal_transformer
-	 - ambilight
-	 - streamer
-	 - steady
-	 - breathing
-	 - neon
-	 - shadow_disappear
-	 - flash_away
+## 📦 Dependencies
 
-Example :
+- Python 3
+- `hidapi` (for USB communication)
+- `PyQt6` (for the GUI)
 
-    # python bora_control.py --speed 3 --brightness 4 --sleep 5 -r 255 -g 255 -b 255 -an "ripples_shining"
-    # python bora_control.py -sp 5 -an "rainbow_wheel" -rb
+Install the requirements via pip:
 
-## Notes
+```bash
+pip install hidapi PyQt6
+```
 
-The `--rainbow` argument will overrule the `--red, --green, --blue` parameters.
+> **Note:** To communicate with the USB HID device on Linux, you usually need root privileges (`sudo`) or custom `udev` rules.
 
-By default the script would require superuser access to run. In order to run this without root, you can plug a udev rule by performing the following steps :
-Step 1: Find your vendor id and product id. Here it is `258a` and `004a` respectively, and would most likely be same for you if you are having the same keyboard.
+## 🚀 How to Use
 
-    $ lsusb
-    Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-    Bus 001 Device 005: ID 0c45:671e Microdia Integrated_Webcam_HD
-    Bus 001 Device 002: ID 258a:004a SINO WEALTH RK Bluetooth Keyboard
-    Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+### Using the Graphical Interface (Recommended)
 
-Step 2:
-add a `rules` file to `/etc/udev/rules.d`
-file: `60-rk.rules`
+Run the GUI script with root privileges (if using Wayland, preserve the environment with `-E`):
 
-    SUBSYSTEMS=="usb|hidraw", ATTRS{idVendor}=="258a", ATTRS{idProduct}=="004a", TAG+="uaccess"
+```bash
+sudo -E python bora_control_gui.py
+```
+*(If you are using a virtual environment, use `sudo -E venv/bin/python bora_control_gui.py`)*
 
-replace `258a` with your vendor id and `004a` with your product id, in case it is different.
-Step 3:
-Finally, reload your udev rules by running the following command :
+### Using the Command Line (CLI)
 
-    # udevadm control --reload-rules && udevadm trigger
+You can also use the CLI utility directly for automation. 
 
-## What's working?
-Currently the script allows setting and configuring of inbuilt color profiles on the keyboard. Custom customisation such as custom LED colors and macros are still not present but will (hopefully) be soon supported.
+```bash
+sudo python bora_control.py <arguments>
+```
 
-## Credits
-Big credits to [this](https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/2308) issue thread on the OpenRGB Gitlab Repo that served great reference.
+**Arguments:**
+- `--animation`, `-an`: Name of the animation (e.g., `retro_snake`, `neon_stream`, `steady`, etc.)
+- `--speed`, `-sp [1-5]`: Speed of the LED animation.
+- `--brightness`, `-br [1-4]`: Brightness of the LED animation (1 = 25%, 4 = 100%).
+- `--red`, `-r [0-255]`: Red value of the global color.
+- `--green`, `-g [0-255]`: Green value of the global color.
+- `--blue`, `-b [0-255]`: Blue value of the global color.
+- `--rainbow`, `-rb`: Enable hardware Rainbow Mode (Overrides static color).
+- `--sleep`, `-sl [1-5]`: Sleep duration for the keyboard LEDs (1=5m, 2=10m, 3=20m, 4=30m, 5=Never).
+
+**CLI Examples:**
+
+Set a steady blue color:
+```bash
+sudo python bora_control.py -an steady -r 0 -g 0 -b 255
+```
+
+Set Retro Snake to max speed, 50% brightness, with Rainbow Mode enabled:
+```bash
+sudo python bora_control.py -an retro_snake -sp 5 -br 2 -rb
+```
+
+## ⌨️ Supported Animations
+- `retro_snake`
+- `neon_stream`
+- `reaction`
+- `sine_wave`
+- `steady`
+- `breathing`
+- `rainbow`
+- `flash_away`
+- `raindrops`
+- `rainbow_wheel`
+- `ripples_shining`
+- `stars_twinkle`
+- `shadow_disappear`
+
+---
+
+### Acknowledgments
+This project started as a fork of [oddlyspaced/rkcu](https://github.com/oddlyspaced/rkcu) (Royal Kludge Config Utility), heavily refactored to fully support the T-Dagger Bora architecture, including correct parameter bit-packing and GUI integration.
+
+### AI Disclaimer
+This project's refactoring, UI creation, and protocol reverse engineering were heavily assisted by AI (specifically, Google's DeepMind Antigravity). If you are allergic to AI-generated code, consider yourself warned. *Achoo!* 🤖🤧
