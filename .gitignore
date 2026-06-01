@@ -1,1 +1,5 @@
 *__pycache*
+exe/
+capture/
+custom_testing/
+test_scripts/

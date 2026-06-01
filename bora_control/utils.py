@@ -2,7 +2,7 @@ import hid
 from .config import Config
 
 # utility class for RK Color Utility
-class RKCU:
+class BoraControl:
     def __init__(self, vid, pid):
         self.device = self.find_kb_hid(vid, pid)
     
@@ -14,7 +14,10 @@ class RKCU:
         return h
     
     def apply_config(self, config: Config):
-        self.device.send_feature_report(bytes(config.report()))
+        import time
+        for report in config.reports():
+            self.device.send_feature_report(bytes(report))
+            time.sleep(0.05)
     
     def close_kb(self):
         self.device.close()

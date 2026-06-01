@@ -1,11 +1,11 @@
 from enum import Enum
 
 class Speed(Enum):
-    SPEED_1 = 0x01
-    SPEED_2 = 0x02
-    SPEED_3 = 0x03
-    SPEED_4 = 0x04
-    SPEED_5 = 0x05
+    SPEED_1 = 1
+    SPEED_2 = 2
+    SPEED_3 = 3
+    SPEED_4 = 4
+    SPEED_5 = 5
 
     @staticmethod
     def from_value(value: int):
@@ -48,7 +48,7 @@ class Brightness(Enum):
 
 class RainbowMode(Enum):
     OFF = 0x00
-    ON = 0x01
+    ON = 0x07
 
     @staticmethod
     def from_value(value: bool):
@@ -80,54 +80,41 @@ class Sleep(Enum):
             return Sleep.SLEEP_NEVER # default value
 
 class Animation(Enum):
-    NEON_STREAM = 0x01
-    RIPPLES_SHINING = 0x02
-    ROTATING_WINDMILL = 0x03
+    RETRO_SNAKE = 0x01
+    NEON_STREAM = 0x02
+    REACTION = 0x03
     SINE_WAVE = 0x04 
-    RAINBOW_ROULETTE = 0x05
-    STARS_TWINKLE = 0x06
-    LAYER_UPON_LAYER = 0x07
-    RICH_AND_HONORED = 0x08
-    MARQUEE_EFFECT = 0x09
-    ROTATING_STORM = 0x0a
-    SERPENTINE_HORSE = 0x0b
-    RETRO_SNAKE = 0x0c
-    DIAGONAL_TRANSFORMER = 0x0d
-    # CUSTOMIZE = 0x0e
-    AMBILIGHT = 0x0f
-    STREAMER = 0x10
-    STEADY = 0x11
-    BREATHING = 0x12
-    NEON = 0x13
-    SHADOW_DISAPPEAR = 0x14
-    FLASH_AWAY = 0x15
-    # MUSIC = 0x16
+    STEADY = 0x05
+    BREATHING = 0x06
+    RAINBOW = 0x07
+    FLASH_AWAY = 0x08
+    RAINDROPS = 0x09
+    RAINBOW_WHEEL = 0x0a
+    RIPPLES_SHINING = 0x0b
+    STARS_TWINKLE = 0x0c
+    SHADOW_DISAPPEAR = 0x0d
+    # GAME_MODE = 0x0e
 
     @staticmethod
     def from_value(value: str):
         values = {
-            "neon_stream": Animation.NEON_STREAM,
-            "ripples_shining": Animation.RIPPLES_SHINING,
-            "sine_wave": Animation.SINE_WAVE,
-            "rainbow_routlette": Animation.RAINBOW_ROULETTE,
-            "stars_twinkle": Animation.STARS_TWINKLE,
-            "layer_upon_layer": Animation.LAYER_UPON_LAYER,
-            "rich_and_honored": Animation.RICH_AND_HONORED,
-            "marquee_effect": Animation.MARQUEE_EFFECT,
-            "rotating_storm": Animation.ROTATING_STORM,
-            "serpentine_horse": Animation.SERPENTINE_HORSE,
             "retro_snake": Animation.RETRO_SNAKE,
-            "diagonal_transformer": Animation.DIAGONAL_TRANSFORMER,
-            "ambilight": Animation.AMBILIGHT,
-            "streamer": Animation.STREAMER,
+            "neon_stream": Animation.NEON_STREAM,
+            "reaction": Animation.REACTION,
+            "sine_wave": Animation.SINE_WAVE,
             "steady": Animation.STEADY,
             "breathing": Animation.BREATHING,
-            "neon": Animation.NEON,
+            "rainbow": Animation.RAINBOW,
+            "flash_away": Animation.FLASH_AWAY,
+            "raindrops": Animation.RAINDROPS,
+            "rainbow_wheel": Animation.RAINBOW_WHEEL,
+            "ripples_shining": Animation.RIPPLES_SHINING,
+            "stars_twinkle": Animation.STARS_TWINKLE,
             "shadow_disappear": Animation.SHADOW_DISAPPEAR,
-            "flash_away": Animation.FLASH_AWAY
+            # "game_mode": Animation.GAME_MODE
         }
         if value in list(values.keys()):
             return values[value]
         else :
-            print("warning: unable to find specified animation, using Neon Stream")
-            return Animation.NEON_STREAM # default value
+            print("warning: unable to find specified animation, using Steady")
+            return Animation.STEADY # default value

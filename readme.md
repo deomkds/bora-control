@@ -1,5 +1,6 @@
 
-# RKCU - Royal Kludge Config Utility
+# Bora Control - T-Dagger Bora / RK61 / Sino Wealth RGB Config Utility
+
 Python3 based command line utility to manage and modify profiles on [Royal Kludge RK 61 Keyboard](https://www.meckeys.com/shop/keyboard/60-keyboard/royal-kludge-rk61-hot-swappable/).
 
 ## Dependencies
@@ -11,7 +12,7 @@ Installable using `pip` by running :
 
 ## How to use
 
-    # python rkcu.py <arguments>
+    # python bora_control.py <arguments>
 
 Arguments :
 
@@ -65,8 +66,8 @@ Arguments :
 
 Example :
 
-    # python rkcu.py --speed 3 --brightness 5 --sleep 5 -r 255 -g 255 -b 255 -an "ripples_shining"
-    # python rkcu.py -sp 5 -an "rotating_storm" -rb
+    # python bora_control.py --speed 3 --brightness 4 --sleep 5 -r 255 -g 255 -b 255 -an "ripples_shining"
+    # python bora_control.py -sp 5 -an "rainbow_wheel" -rb
 
 ## Notes
 

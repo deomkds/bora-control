@@ -1,7 +1,7 @@
 import argparse
 
-from rkcu.config import get_base_config
-from rkcu.utils import RKCU
+from bora_control.config import get_base_config
+from bora_control.utils import BoraControl
 
 # Python based Command Line wrapper for managing profiles on Royal Kludge RK 61 Keyboard
 # author: Hardik Srivastava [oddlyspaced]
@@ -37,5 +37,5 @@ def update_config(var: dict):
 setup_arg_parser()
 read_args()
 
-rk = RKCU(0x258a, 0x004a)
+rk = BoraControl(0x258a, 0x0016)
 rk.apply_config(color_config)
